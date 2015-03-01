@@ -4,5 +4,6 @@ from django.apps import AppConfig
 
 
 class SnakeoilConfig(AppConfig):
-    name = 'seo'
+    label = 'seo'
+    name = 'snakeoil'
     verbose_name = 'SEO'
