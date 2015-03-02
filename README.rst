@@ -67,3 +67,9 @@ work everywhere:
 
 You can also use {% get_seo_data as my_variable %} if you'd like a different
 variable name to use in your template.
+
+
+Credits
+-------
+
+Thanks to kezabelle for the name.
