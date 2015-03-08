@@ -31,14 +31,13 @@ class SeoDataNode(template.Node):
         try:
             seo_url = SeoUrl.objects.get(url=path)
         except SeoUrl.DoesNotExist:
-            seo_url = None
+            return ''
 
-        if seo_url:
-            seo = {}
-            for field in seo_model._meta.fields:
-                seo[field.name] = getattr(seo_url, field.name)
+        seo = {}
+        for field in seo_model._meta.fields:
+            seo[field.name] = getattr(seo_url, field.name)
 
-            context[self.variable_name] = seo
+        context[self.variable_name] = seo
         return ''
 
 
