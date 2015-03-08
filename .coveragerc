@@ -1,0 +1,5 @@
+[run]
+source = .
+omit =
+    setup.py
+    snakeoil/admin.py
