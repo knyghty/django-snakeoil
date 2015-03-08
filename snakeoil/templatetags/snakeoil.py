@@ -18,7 +18,7 @@ class SeoDataNode(template.Node):
         flat_context = context.flatten()
         path = flat_context['request'].path
 
-        for obj in flat_context.itervalues():
+        for obj in flat_context.values():
             if (hasattr(obj, 'get_absolute_url') and
                     obj.get_absolute_url() == path):
                 seo = {}
