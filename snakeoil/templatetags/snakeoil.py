@@ -25,19 +25,20 @@ class SeoDataNode(template.Node):
                 for field in seo_model._meta.fields:
                     if getattr(obj, field.name) != '':
                         seo[field.name] = getattr(obj, field.name)
-
-                if not seo:
-                    try:
-                        seo_url = SeoUrl.objects.get(url=path)
-                    except SeoUrl.DoesNotExist:
-                        seo_url = None
-
-                    if seo_url:
-                        for field in seo_model._meta.fields:
-                            seo[field.name] = getattr(seo_url, field.name)
-
                 context[self.variable_name] = seo
                 return ''
+
+        try:
+            seo_url = SeoUrl.objects.get(url=path)
+        except SeoUrl.DoesNotExist:
+            seo_url = None
+
+        if seo_url:
+            seo = {}
+            for field in seo_model._meta.fields:
+                seo[field.name] = getattr(seo_url, field.name)
+
+            context[self.variable_name] = seo
         return ''
 
 
