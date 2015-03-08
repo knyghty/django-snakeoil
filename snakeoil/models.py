@@ -8,7 +8,7 @@ from .utils import get_seo_model
 
 class SeoModel(models.Model):
     head_title = models.CharField(blank=True, max_length=55)
-    meta_description = models.TextField(blank=True, max_length=255)
+    meta_description = models.TextField(blank=True, max_length=160)
 
     class Meta:
         abstract = True
