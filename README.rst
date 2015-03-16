@@ -23,4 +23,4 @@ Credits
 
 Thanks to kezabelle for the name.
 
-_Read The Docs: http://django-snakeoil.readthedocs.org/
+.. _Read The Docs: http://django-snakeoil.readthedocs.org/
