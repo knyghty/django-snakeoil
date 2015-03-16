@@ -10,6 +10,7 @@ Installation
 1. ``pip install django-snakeoil``
 2. Add ``django.core.context_processors.request`` to
 ``TEMPLATE_CONTEXT_PROCESSORS``
+
 3. Add ``'snakeoil'`` to ``INSTALLED_APPS``
 
 

@@ -8,7 +8,7 @@ Installation
 ************
 
 1. ``pip install django-snakeoil``
-2. Add request to your context processors::
+2. Add request to your context processors:
   .. code-block:: python
     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
     TEMPLATE_CONTEXT_PROCESSORS = TCP +
