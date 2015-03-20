@@ -16,4 +16,14 @@ setup(
     description='Simple Django SEO module',
     install_requires=['django >= 1.7'],
     requires=['django (>= 1.7)'],
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Environment :: Web Environment',
+        'Framework :: Django',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+    ],
 )
