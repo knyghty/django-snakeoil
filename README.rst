@@ -2,6 +2,13 @@
 django-snakeoil
 ###############
 
+.. image:: https://pypip.in/version/django-snakeoil/badge.svg
+  :target: https://pypi.python.org/pypi/django-snakeoil/
+.. image:: https://travis-ci.org/knyghty/django-snakeoil.svg
+  :target: https://travis-ci.org/knyghty/django-snakeoil
+.. image:: https://coveralls.io/repos/knyghty/django-snakeoil/badge.svg
+  :target: https://coveralls.io/r/knyghty/django-snakeoil
+
 django-snakeoil provides SEO data (meta description, etc.) to your templates.
 You can associate data with model instances or for any URL on your site.
 
