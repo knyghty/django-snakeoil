@@ -11,6 +11,10 @@ env:
 
 install:
   - pip install $DJANGO --use-mirrors
+  - pip install coveralls
 
 script:
-  - python runtests.py
+  - coverage run runtests.py
+
+after_success:
+  - coveralls
