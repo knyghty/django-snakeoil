@@ -22,6 +22,7 @@ Features
 * Fast. Data for objects doesn't require any extra database queries.
 * Flexible. Associate data with any URL.
 * Extensible. Provide your own model with your own fields.
+* 100% test coverage.
 
 
 ************
