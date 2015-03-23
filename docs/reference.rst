@@ -12,8 +12,9 @@ Installation
   .. code-block:: python
 
     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
-    TEMPLATE_CONTEXT_PROCESSORS = TCP +
-    ('django.core.context_processors.request',)
+    TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+        'django.core.context_processors.request',
+    )
 3. Add ``'snakeoil'`` to your INSTALLED_APPS
 
 
@@ -87,7 +88,7 @@ It might be useful to provide sensible defaults, such as:
 
 .. code-block:: html
 
-  <title>{% firstof seo.head_title object.title %} - My Site</title>
+  <title>{% firstof seo.head_title object %} - My Site</title>
 
 If you want to name your variable something else, maybe because you're already
 using seo for something else, or are using snakeoil for non-SEO data, the

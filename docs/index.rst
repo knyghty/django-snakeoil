@@ -9,6 +9,7 @@ Contents:
 
    quickstart
    reference
+   examples
 
 
 django-snakeoil provides SEO data (meta description, etc.) to your templates.
