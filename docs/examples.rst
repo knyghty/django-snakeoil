@@ -32,7 +32,7 @@ Making life easier for admins
 It's great that our admins can add SEO data for any object or URL, but we
 can make their life even easier by adding sensible defaults. If you're using
 class-based views, you can provide a default based on the
- ``__str__()``/``__unicode__()`` methods of your models by constructing your
+``__str__()``/``__unicode__()`` methods of your models by constructing your
 base.html like so:
 
 .. code-block:: html
