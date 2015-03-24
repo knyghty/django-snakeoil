@@ -23,10 +23,11 @@ class SeoDataNode(template.Node):
                     obj.get_absolute_url() == path):
                 seo = {}
                 for field in seo_model._meta.fields:
-                    if (hasattr(obj, field.name) and getattr(obj, field.name)):
+                    if (getattr(obj, field.name, '') != ''):
                         seo[field.name] = getattr(obj, field.name)
-                context[self.variable_name] = seo
-                return ''
+                if seo:
+                    context[self.variable_name] = seo
+                    return ''
 
         try:
             seo_url = SeoUrl.objects.get(url=path)
