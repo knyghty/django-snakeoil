@@ -47,9 +47,10 @@ class SeoDataNode(template.Node):
         logger.debug('SEO URL found')
         seo = {}
         for field in seo_model._meta.fields:
-            seo[field.name] = getattr(seo_url, field.name)
-            logger.debug('Adding field `{}` to SEO dict'
-                         .format(field.name))
+            if getattr(seo_url, field.name, '') != '':
+                seo[field.name] = getattr(seo_url, field.name)
+                logger.debug('Adding field `{}` to SEO dict'
+                             .format(field.name))
 
         context[self.variable_name] = seo
         logger.debug('Returning with URL data')
