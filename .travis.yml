@@ -10,9 +10,8 @@ env:
   - DJANGO="Django<1.8"
   - DJANGO="Django<1.9"
   - DJANGO="Django>=1.9a,<1.10"
-
 install:
-  - pip install $DJANGO --use-mirrors
+  - pip install $DJANGO
   - pip install coveralls
 
 script:
