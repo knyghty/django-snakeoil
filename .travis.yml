@@ -13,8 +13,8 @@ env:
 
 matrix:
   exclude:
-	  - python: "pypy3"
-		    env: DJANGO="Django<1.10"
+    - python: "pypy3"
+      env: DJANGO="Django<1.10"
 
 install:
   - pip install $DJANGO
