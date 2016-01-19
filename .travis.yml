@@ -11,6 +11,11 @@ env:
   - DJANGO="Django<1.9"
   - DJANGO="Django<1.10"
 
+matrix:
+  exclude:
+    - python: "pypy3"
+        env: DJANGO="Django<1.10"
+
 install:
   - pip install $DJANGO
   - pip install coveralls
