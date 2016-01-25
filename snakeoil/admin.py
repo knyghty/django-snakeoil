@@ -14,8 +14,6 @@ class SeoAdmin(admin.ModelAdmin):
         return fields + seo_fields
 
 
+@admin.register(SeoUrl)
 class SeoUrlAdmin(SeoAdmin):
     pass
-
-
-admin.site.register(SeoUrl, SeoUrlAdmin)
