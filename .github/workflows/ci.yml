@@ -45,7 +45,7 @@ jobs:
           python -m pip install sphinx sphinx-rtd-theme sphinxcontrib-spelling
       - run: |
           cd docs
-          sphinx-build -b spelling -n -q -w doc_warnings -d _build/doctrees . _build/spelling
+          sphinx-build -b spelling -n -d _build/doctrees . _build/spelling
 
   SQLite:
     needs: [black, docs, flake8, isort]

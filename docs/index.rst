@@ -1,9 +1,12 @@
-Welcome to django-snakeoil's documentation!
-===========================================
+django-snakeoil
+===============
 
 .. toctree::
     :maxdepth: 2
     :caption: Contents:
+
+    setup
+    usage
 
 Indices and tables
 ==================

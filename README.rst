@@ -20,7 +20,7 @@ manager.
 You can use Snakeoil in two ways. If you'd like to attach metadata to an
 object, you can use the model abstract base class::
 
-    from snakeoi.models import SEOModel
+    from snakeoil.models import SEOModel
 
     class MyModel(SEOModel):
         pass
