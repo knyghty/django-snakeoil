@@ -139,11 +139,11 @@ jobs:
         uses: actions/setup-python@v1.1.1
         with:
           python-version: ${{ matrix.python-version }}
-      - run: sudo apt-get install jinja2 pillow libmariadbclient-dev
+      - run: sudo apt-get install libmariadbclient-dev
       - uses: actions/checkout@v1
       - run: |
           python setup.py develop
-          python -m pip install mysqlclient
+          python -m pip install jinja2 pillow mysqlclient
           python -m pip install django~=${{ matrix.django-version }}
       - run: python runtests.py
         env:
