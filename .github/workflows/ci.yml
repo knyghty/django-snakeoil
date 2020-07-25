@@ -163,6 +163,7 @@ jobs:
   release:
     needs: [black, docs, flake8, isort, SQLite, PostgreSQL, MySQL, MariaDB]
     if: ${{ github.event_name == 'release' }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-python@v1.1.1
       - uses: actions/checkout@v1
