@@ -23,7 +23,7 @@ jobs:
       - uses: actions/setup-python@v1.1.1
       - uses: actions/checkout@v1
       - run: python -m pip install isort
-      - run: isort --recursive --check-only --diff snakeoil tests
+      - run: isort --check-only --diff snakeoil tests
 
   docs:
     runs-on: ubuntu-latest
