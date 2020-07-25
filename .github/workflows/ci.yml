@@ -38,12 +38,12 @@ jobs:
           sphinx-build -b spelling -n -q -w doc_warnings -d _build/doctrees . _build/spelling
 
   SQLite:
-    needs: [flake8, isort]
+    needs: [black, docs, flake8, isort]
     runs-on: ubuntu-latest
     strategy:
       matrix:
         django-version: [3.1rc1]
-        python-version: [3.6, 3.7, 3.8]
+        python-version: ["3.6", "3.7", "3.8"]
     steps:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1.1.1
@@ -58,12 +58,12 @@ jobs:
       - run: python runtests.py
 
   PostgreSQL:
-    needs: [flake8, isort]
+    needs: [black, docs, flake8, isort]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: [2.2, 3.0, 3.1rc1]
-        python-version: [3.6, 3.7, 3.8]
+        django-version: ["2.2", "3.0", "3.1rc1"]
+        python-version: ["3.6", "3.7", "3.8"]
     services:
       postgres:
         image: postgres:12
@@ -89,12 +89,12 @@ jobs:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
 
   MySQL:
-    needs: [flake8, isort]
+    needs: [black, docs, flake8, isort]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: [3.1rc1]
-        python-version: [3.6, 3.7, 3.8]
+        django-version: ["3.1rc1"]
+        python-version: ["3.6", "3.7", "3.8"]
     services:
       mysql:
         image: mysql
@@ -120,12 +120,12 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
   MariaDB:
-    needs: [flake8, isort]
+    needs: [black, docs, flake8, isort]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: [3.1rc1]
-        python-version: [3.6, 3.7, 3.8]
+        django-version: ["3.1rc1"]
+        python-version: ["3.6", "3.7", "3.8"]
     services:
       mariadb:
         image: mariadb
