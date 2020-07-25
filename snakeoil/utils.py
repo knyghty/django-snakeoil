@@ -9,6 +9,7 @@ from django.utils.translation import get_language
 
 from .models import SEOPath
 
+
 logger = logging.getLogger(__name__)
 register = template.Library()
 
