@@ -8,6 +8,7 @@ isort
 pillow
 rstcheck
 sphinx
+sphinx-rtd-theme
 sphinxcontrib-spelling
 twine
 wheel

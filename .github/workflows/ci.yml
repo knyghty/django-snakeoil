@@ -42,7 +42,7 @@ jobs:
       - uses: actions/checkout@v1
       - run: |
           python setup.py develop
-          python -m pip install sphinx sphinxcontrib-spelling
+          python -m pip install sphinx sphinx-rtd-theme sphinxcontrib-spelling
       - run: |
           cd docs
           sphinx-build -b spelling -n -q -w doc_warnings -d _build/doctrees . _build/spelling
