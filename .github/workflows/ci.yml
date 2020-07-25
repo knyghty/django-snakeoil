@@ -1,11 +1,11 @@
 name: CI
 on:
   push:
-    - branches:
-        - main
+    branches:
+      - main
   pull-request:
-    - branches:
-        - main
+    branches:
+      - main
   release:
     types:
       - published
