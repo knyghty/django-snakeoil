@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Test page</title>
+
+    {% block head %}
+      {% with meta_tags=get_meta_tags() %}
+        {% include "snakeoil/seo.jinja2" %}
+      {% endwith %}
+    {% endblock %}
+  </head>
+
+  <body>
+    {% block content %}{% endblock %}
+  </body>
+</html>

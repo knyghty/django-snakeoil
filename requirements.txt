@@ -1,0 +1,13 @@
+# Development requirements.
+black
+coverage
+django==3.1rc1
+flake8
+flake8-bugbear
+isort
+pillow
+rstcheck
+sphinx
+sphinxcontrib-spelling
+twine
+wheel

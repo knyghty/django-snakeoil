@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load snakeoil %}
+
+{% block head %}
+  {% meta article %}
+{% endblock %}
+
+{% block content %}
+  {{ article.content }}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% for tag in meta_tags %}
+  <meta
+    {% if 'name' in tag %}name="{{ tag.name }}"{% endif %}
+    {% if 'property' in tag %}property="{{ tag.property }}"{% endif %}
+    content="{{ tag.content }}"
+  >
+{% endfor %}
