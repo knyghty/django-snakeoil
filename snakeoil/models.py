@@ -18,7 +18,7 @@ class SEOModel(models.Model):
     class Meta:
         abstract = True
         if postgres_only:
-            required_db_vendor = "postgres"
+            required_db_vendor = "postgresql"
 
 
 class SEOPath(SEOModel):
@@ -28,7 +28,7 @@ class SEOPath(SEOModel):
         verbose_name = _("SEO path")
         verbose_name_plural = _("SEO paths")
         if postgres_only:
-            required_db_vendor = "postgres"
+            required_db_vendor = "postgresql"
 
     def __str__(self):
         return self.path

@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
             options={
                 "verbose_name": "SEO path",
                 "verbose_name_plural": "SEO paths",
-                "required_db_vendor": "postgres" if postgres_only else None,
+                "required_db_vendor": "postgresql" if postgres_only else None,
             },
         ),
     ]
