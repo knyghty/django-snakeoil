@@ -11,6 +11,8 @@ It offers full internationalization support (tags for multiple languages),
 content set from object attributes, automatic Opengraph image width and
 heights for ``ImageField``, and more.
 
+`Full documentation <https://django-snakeoil.readthedocs.io/en/latest/index.html>`_
+
 Getting started
 ===============
 
@@ -147,7 +149,7 @@ Notes
 Thanks to kezabelle for the name. For those wondering:
 
 Metadata is often used for SEO purposes. A lot of people (rightly or not)
-consider SEO to be snakeoil. Also, SnakEOil.
+consider SEO to be snakeoil. Also, SnakEOil. Very clever, I know.
 
 The old version of django-snakeoil can be found on the ``old`` branch, but
 won't be updated.
