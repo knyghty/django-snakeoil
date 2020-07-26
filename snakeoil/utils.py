@@ -42,8 +42,8 @@ def _override_tags(base_tags, overriding_tags):
     return output
 
 
-def _collate_meta_tags(meta_tags):
-    collated_tags = getattr(settings, "SNAKEOIL_DEFAULT_TAGS", {})
+def _collate_meta_tags(meta_tags, default_tags):
+    collated_tags = default_tags
     for language, tags in meta_tags.items():
         # Simple case, if the language isn't in the tags, dump them all in.
         if language not in collated_tags:
@@ -114,6 +114,7 @@ def _parse_meta_tags(tags, request, obj):
             if isinstance(attr, ImageFieldFile):
                 field = attr
                 tag["content"] = _get_absolute_file_url(request, field.url)
+                parsed_tags.append(tag)
                 if tag.get("property", "") in {"og:image", "og:image:url"}:
                     width, height = _get_image_dimensions(obj, field)
                     parsed_tags.append({"property": "og:image:width", "content": width})
@@ -122,7 +123,7 @@ def _parse_meta_tags(tags, request, obj):
                     )
             else:
                 tag["content"] = attr
-            parsed_tags.append(tag)
+                parsed_tags.append(tag)
         elif "static" in tag:
             tag["content"] = _get_absolute_file_url(request, static(tag["static"]))
             parsed_tags.append(tag)
@@ -141,25 +142,29 @@ def get_meta_tags(context, obj=None):
     2. If not, try to find the object in the context.
     3. If there isn't one, check if there is an object for the current path.
     4. Grab the defaults and merge in the tags from the model.
-    5. Get tags based on the language.
-    6. Return the tags.
+    5. Merge in tags from the object.
+    6. Get tags based on the language.
+    7. Return the tags.
 
-    The priority works like this.
+    The priority works like this:
     - More specific languages beat less specific ones, e.g. en_GB > en > default.
     - Tags from the object beat tags from the settings.
     """
     try:
         if obj is not None:
-            meta_tags = obj.meta_tags
+            found_tags = obj.meta_tags
         else:
             request_path = context["request"].path
-            obj, meta_tags = _get_meta_tags_from_context(context, request_path)
-            if not meta_tags:
-                meta_tags = _get_meta_tags_for_path(request_path)
+            obj, found_tags = _get_meta_tags_from_context(context, request_path)
+            if not found_tags:
+                found_tags = _get_meta_tags_for_path(request_path)
 
-        meta_tags = _collate_meta_tags(meta_tags)
-        meta_tags = _get_meta_tags_for_language(meta_tags)
-        meta_tags = _parse_meta_tags(meta_tags, request=context["request"], obj=obj)
+        default_tags = getattr(settings, "SNAKEOIL_DEFAULT_TAGS", {})
+        model_tags = getattr(obj, "snakeoil_metadata", None) or {}
+        collated_tags = _collate_meta_tags(model_tags, default_tags)
+        collated_tags = _collate_meta_tags(found_tags, collated_tags)
+        collated_tags = _get_meta_tags_for_language(collated_tags)
+        meta_tags = _parse_meta_tags(collated_tags, request=context["request"], obj=obj)
         return {"meta_tags": meta_tags}
     except Exception:
         logger.exception("Failed fetching meta tags")

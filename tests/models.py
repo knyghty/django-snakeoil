@@ -23,9 +23,23 @@ class Article(SEOModel):
     secondary_image = models.ImageField(null=True, blank=True)
     content = models.TextField()
 
+    def get_absolute_url(self):
+        return reverse("article_detail", args=[self.slug])
+
     @property
     def author_name(self):
         return self.author.get_full_name()
 
-    def get_absolute_url(self):
-        return reverse("article_detail", args=[self.slug])
+    @property
+    def snakeoil_metadata(self):
+        metadata = {
+            "default": [
+                {"name": "author", "attribute": "author_name"},
+                {"property": "og:title", "attribute": "title"},
+            ],
+        }
+        if self.main_image:
+            metadata["default"].append(
+                {"property": "og:image", "attribute": "main_image"}
+            )
+        return metadata

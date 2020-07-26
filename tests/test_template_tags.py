@@ -14,13 +14,12 @@ User = get_user_model()
 
 
 class MetaTemplateTagTestCase(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = User.objects.create_user(
+    def setUp(self):
+        self.user = User.objects.create_user(
             username="tom", first_name="Tom", last_name="Carrick"
         )
-        cls.article = Article.objects.create(
-            author=cls.user,
+        self.article = Article.objects.create(
+            author=self.user,
             slug="an-article",
             title="A test article",
             meta_tags={
@@ -31,6 +30,11 @@ class MetaTemplateTagTestCase(TestCase):
                 ],
             },
         )
+        with open(settings.TESTS_DIR / "data" / "kitties.jpg", "rb") as f:
+            self.article.main_image = SimpleUploadedFile(
+                name="kitties.jpg", content=f.read(), content_type="image/jpeg",
+            )
+        self.article.save()
 
     def test_meta_template_tag_with_seo_model(self):
         response = self.client.get(f"/articles/{self.article.slug}/")
@@ -45,11 +49,6 @@ class MetaTemplateTagTestCase(TestCase):
         )
 
     def test_meta_template_tag_with_attr(self):
-        self.article.meta_tags["en"].append(
-            {"name": "author", "attribute": "author_name"}
-        )
-        self.article.save()
-
         response = self.client.get(f"/articles/{self.article.slug}/")
 
         self.assertTemplateUsed(response, "tests/article_detail.html")
@@ -58,11 +57,6 @@ class MetaTemplateTagTestCase(TestCase):
         )
 
     def test_attr_with_object_from_context(self):
-        self.article.meta_tags["en"].append(
-            {"name": "author", "attribute": "author_name"}
-        )
-        self.article.save()
-
         response = self.client.get(
             f"/articles/{self.article.slug}/", {"template_without_obj": True}
         )
@@ -140,9 +134,6 @@ class MetaTemplateTagTestCase(TestCase):
             self.article.main_image = SimpleUploadedFile(
                 name="kitties.jpg", content=f.read(), content_type="image/jpeg",
             )
-        self.article.meta_tags["en"] = [
-            {"property": "og:image", "attribute": "main_image"}
-        ]
         self.article.save()
 
         response = self.client.get(f"/articles/{self.article.slug}/")
@@ -294,4 +285,24 @@ class MetaTemplateTagTestCase(TestCase):
         response = self.client.get("/")
         self.assertContains(
             response, '<meta name="description" content="home page">', html=True
+        )
+
+    def test_model_metadata(self):
+        response = self.client.get(f"/articles/{self.article.slug}/")
+
+        self.assertContains(
+            response, '<meta name="author" content="Tom Carrick">', html=True,
+        )
+        self.assertContains(
+            response,
+            f'<meta property="og:title" content="{self.article.title}">',
+            html=True,
+        )
+        self.assertContains(
+            response,
+            (
+                '<meta property="og:image" '
+                f'content="http://testserver{self.article.main_image.url}">'
+            ),
+            html=True,
         )
