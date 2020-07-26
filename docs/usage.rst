@@ -51,10 +51,15 @@ First, inherit your model from ``SEOModel``::
 
     from snakeoil.models import SEOModel
 
-    class MyModel(SEOModel):
+    class Article(SEOModel):
         title = models.CharField(max_length=200)
         author = models.ForeignKey(User, on_delete=models.CASCADE)
         main_image = models.Imagefield()
+
+        def get_absolute_url(self):
+            # Snakeoil will use this to find the object
+            # if you don't pass it in.
+            return reverse("...")
 
         @property
         def author_name(self):
@@ -92,6 +97,46 @@ key::
 
 For images using ``ImageField`` in an ``og:image``, this will automatically
 populate the ``og:image:width`` and ``og:image:height`` properties.
+
+Setting metadata dynamically
+----------------------------
+
+Usually, your models will have some metadata stored as model fields or
+attributes, and it's a lot of effort to override this for every obejct.
+To set per-model metadata based on object attributes, you can define a
+property called ``snakeoil_metadata`` on your model::
+
+    from snakeoil.models import SEOModel
+
+    class Article(SEOModel):
+        title = models.CharField(max_length=200)
+        author = models.ForeignKey(User, on_delete=models.CASCADE)
+        main_image = models.Imagefield(blank=True, null=True)
+
+        @property
+        def author_name(self):
+            return
+
+        @property
+        def snakeoil_metadata(self):
+            metadata = {
+                "default": [
+                    {
+                        "name": "author",
+                        "content": self.author.get_full_name(),
+                    },
+                    {"property": "og:title", "content": self.title},
+                ]
+            }
+            if self.main_image:
+                metadata.append(
+                    {"property": "og:image", "attribute": "main_image"}
+                )
+            return metadata
+
+.. note::
+    It's important to use ``attribute`` for ``og:image`` so the height and
+    and width can be set automatically.
 
 Per-URL metadata
 ================

@@ -8,8 +8,8 @@ Works on all supported Django versions using PostgreSQl, or with any database
 on Django 3.1+.
 
 It offers full internationalization support (tags for multiple languages),
-content set from object attributes, automatic Opengraph image width and
-heights for ``ImageField``, and more.
+content set dynamically from object attributes, automatic Opengraph image
+width and heights for ``ImageField``, and more.
 
 `Full documentation <https://django-snakeoil.readthedocs.io/en/latest/index.html>`_
 
@@ -24,8 +24,33 @@ object, you can use the model abstract base class::
 
     from snakeoil.models import SEOModel
 
-    class MyModel(SEOModel):
-        pass
+    class Article(SEOModel):
+        title = models.CharField(max_length=200)
+        author = models.ForeignKey(User, on_delete=models.CASCADE)
+        main_image = models.Imagefield(blank=True, null=True)
+
+        @property
+        def author_name(self):
+            return
+
+        @property
+        def snakeoil_metadata(self):
+            metadata = {
+                "default": [
+                    {
+                        "name": "author",
+                        "content": self.author.get_full_name(),
+                    },
+                    {"property": "og:title", "content": self.title},
+                ]
+            }
+            if self.main_image:
+                metadata.append(
+                    {"property": "og:image", "attribute": "main_image"}
+                )
+            return metadata
+
+You can also override these tags in the admin per-object.
 
 For situations where you can't change the model (flatpages, third party apps)
 or don't have one at all, there is an ``SEOPath`` model that maps paths to
@@ -57,8 +82,8 @@ current language is Dutch. This will generate something like:
     <!-- build a static URL -->
     <meta property="og:image" content="/static/img/default.jpg">
 
-Note that when using static, width and height are not added, but may add
-these yourself. For ``ImageField``, this will be added automatically:
+Note that when using ``static``, width and height are not added, but you may
+add these yourself. For ``ImageField``, this will be added automatically:
 
 .. code-block:: JSON
 
