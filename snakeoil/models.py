@@ -13,7 +13,7 @@ except ImportError:
 
 
 class SEOModel(models.Model):
-    meta_tags = JSONField(default=dict, verbose_name=_("meta tags"))
+    meta_tags = JSONField(blank=True, default=dict, verbose_name=_("meta tags"))
 
     class Meta:
         abstract = True
