@@ -32,7 +32,9 @@ class MetaTemplateTagTestCase(TestCase):
         )
         with open(settings.TESTS_DIR / "data" / "kitties.jpg", "rb") as f:
             self.article.main_image = SimpleUploadedFile(
-                name="kitties.jpg", content=f.read(), content_type="image/jpeg",
+                name="kitties.jpg",
+                content=f.read(),
+                content_type="image/jpeg",
             )
         self.article.save()
 
@@ -132,7 +134,9 @@ class MetaTemplateTagTestCase(TestCase):
     def test_image_field_with_width_and_height_fields(self):
         with open(settings.TESTS_DIR / "data" / "kitties.jpg", "rb") as f:
             self.article.main_image = SimpleUploadedFile(
-                name="kitties.jpg", content=f.read(), content_type="image/jpeg",
+                name="kitties.jpg",
+                content=f.read(),
+                content_type="image/jpeg",
             )
         self.article.save()
 
@@ -156,7 +160,9 @@ class MetaTemplateTagTestCase(TestCase):
     def test_image_field_without_width_and_height_fields(self):
         with open(settings.TESTS_DIR / "data" / "kitties.jpg", "rb") as f:
             self.article.secondary_image = SimpleUploadedFile(
-                name="kitties.jpg", content=f.read(), content_type="image/jpeg",
+                name="kitties.jpg",
+                content=f.read(),
+                content_type="image/jpeg",
             )
         self.article.meta_tags["en"] = [
             {"property": "og:image", "attribute": "secondary_image"}
@@ -291,7 +297,9 @@ class MetaTemplateTagTestCase(TestCase):
         response = self.client.get(f"/articles/{self.article.slug}/")
 
         self.assertContains(
-            response, '<meta name="author" content="Tom Carrick">', html=True,
+            response,
+            '<meta name="author" content="Tom Carrick">',
+            html=True,
         )
         self.assertContains(
             response,
