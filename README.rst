@@ -20,7 +20,9 @@ To install, ``pip install django-snakeoil`` or use your favourite package
 manager.
 
 You can use Snakeoil in two ways. If you'd like to attach metadata to an
-object, you can use the model abstract base class::
+object, you can use the model abstract base class:
+
+.. code-block:: python
 
     from snakeoil.models import SEOModel
 
@@ -104,7 +106,9 @@ Results in:
 Django Templates
 ----------------
 
-Add ``snakeoil`` to your ``INSTALLED_APPS``::
+Add ``snakeoil`` to your ``INSTALLED_APPS``:
+
+.. code-block:: python
 
     INSTALLED_APPS = [
         "snakeoil",
@@ -133,7 +137,9 @@ to short-circuit the tag finding mechanisms:
 Jinja2
 ------
 
-Set your environment::
+Set your environment:
+
+.. code-block:: python
 
     from jinja2 import Environment
     from snakeoil.jinja2 import get_meta_tags
