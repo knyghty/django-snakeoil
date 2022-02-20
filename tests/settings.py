@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-
 TESTS_DIR = Path(__file__).resolve(strict=True).parents[0]
 
 db = os.getenv("DB")

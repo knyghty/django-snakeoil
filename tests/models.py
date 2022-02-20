@@ -4,7 +4,6 @@ from django.urls import reverse
 
 from snakeoil.models import SEOModel
 
-
 User = get_user_model()
 
 

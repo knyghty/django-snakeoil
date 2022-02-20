@@ -1,15 +1,13 @@
+import django
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-
-try:
-    from django.db.models import JSONField
-
-    postgres_only = False
-except ImportError:
-    from django.contrib.postgres.fields import JSONField
-
+if django.VERSION <= (3, 0):
     postgres_only = True
+    from django.contrib.postgres.fields import JSONField
+else:
+    postgres_only = False
+    from django.db.models import JSONField
 
 
 class SEOModel(models.Model):

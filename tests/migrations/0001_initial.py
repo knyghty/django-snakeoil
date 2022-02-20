@@ -2,7 +2,6 @@ import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
 
-
 try:
     from django.db.models import JSONField
 except ImportError:
