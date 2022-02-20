@@ -1,9 +1,8 @@
 # Development requirements.
 black
 coverage
-django~=3.2
+django~=4.0
 flake8
-flake8-bugbear
 isort
 pillow
 rstcheck

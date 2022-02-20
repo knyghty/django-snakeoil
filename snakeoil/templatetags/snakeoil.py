@@ -2,7 +2,6 @@ from django import template
 
 from ..utils import get_meta_tags
 
-
 register = template.Library()
 
 

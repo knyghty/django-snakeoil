@@ -9,7 +9,6 @@ from snakeoil.models import SEOPath
 
 from .models import Article
 
-
 User = get_user_model()
 
 
