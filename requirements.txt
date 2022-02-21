@@ -5,6 +5,7 @@ django~=4.0
 flake8
 isort
 pillow
+pre-commit
 rstcheck
 sphinx
 sphinx-rtd-theme
