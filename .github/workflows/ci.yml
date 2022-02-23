@@ -15,26 +15,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  black:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: psf/black@stable
-
-  flake8:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-python@v2
-      - uses: actions/checkout@v2
-      - run: python -m pip install flake8
-      - run: flake8
-
-  isort:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-python@v2
-      - uses: actions/checkout@v2
-      - run: python -m pip install isort
-      - run: isort --check-only --diff snakeoil tests
+  lint:
+    uses: knyghty/actions/.github/workflows/lint-python.yml@main
+    with:
+      black: true
+      flake8: true
+      isort: true
+      package-manager: pip
+      python-version: "3.10"
 
   docs:
     runs-on: ubuntu-latest
@@ -49,7 +37,7 @@ jobs:
           sphinx-build -b spelling -n -d _build/doctrees . _build/spelling
 
   SQLite:
-    needs: [black, docs, flake8, isort]
+    needs: [docs, lint]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -72,7 +60,7 @@ jobs:
       - run: python runtests.py
 
   PostgreSQL:
-    needs: [black, docs, flake8, isort]
+    needs: [docs, lint]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -106,7 +94,7 @@ jobs:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
 
   MySQL:
-    needs: [black, docs, flake8, isort]
+    needs: [docs, lint]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -140,7 +128,7 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
   MariaDB:
-    needs: [black, docs, flake8, isort]
+    needs: [docs, lint]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -174,7 +162,7 @@ jobs:
           DB_PORT: ${{ job.services.mariadb.ports['3306'] }}
 
   release:
-    needs: [black, docs, flake8, isort, SQLite, PostgreSQL, MySQL, MariaDB]
+    needs: [docs, lint, SQLite, PostgreSQL, MySQL, MariaDB]
     if: ${{ github.event_name == 'release' }}
     runs-on: ubuntu-latest
     steps:
