@@ -2,12 +2,12 @@ import django
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-if django.VERSION <= (3, 0):
-    postgres_only = True
-    from django.contrib.postgres.fields import JSONField
-else:
+if django.VERSION > (3, 0):
     postgres_only = False
     from django.db.models import JSONField
+else:
+    postgres_only = True
+    from django.contrib.postgres.fields import JSONField  # type: ignore
 
 
 class SEOModel(models.Model):
@@ -28,5 +28,5 @@ class SEOPath(SEOModel):
         if postgres_only:
             required_db_vendor = "postgresql"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.path
