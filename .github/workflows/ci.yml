@@ -21,6 +21,7 @@ jobs:
       black: true
       flake8: true
       isort: true
+      mypy: true
       package-manager: pip
       python-version: "3.10"
 

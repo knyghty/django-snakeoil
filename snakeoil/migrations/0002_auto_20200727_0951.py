@@ -4,7 +4,7 @@ try:
     from django.db.models import JSONField
 
 except ImportError:
-    from django.contrib.postgres.fields import JSONField
+    from django.contrib.postgres.fields import JSONField  # type: ignore
 
 
 class Migration(migrations.Migration):

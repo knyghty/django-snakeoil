@@ -1,9 +1,12 @@
 import logging
+from typing import Dict, List, Optional, Tuple
 from urllib.parse import urljoin
 
 from django import template
 from django.conf import settings
+from django.db import models
 from django.db.models.fields.files import ImageFieldFile
+from django.http import HttpRequest
 from django.templatetags.static import static
 from django.utils.translation import get_language
 
@@ -12,20 +15,33 @@ from .models import SEOPath
 logger = logging.getLogger(__name__)
 register = template.Library()
 
+# TODO: Python 3.8+, we can use `typing.Literal`:
+# MetaTagList = List[
+#    Dict[Literal["attribute", "content", "name", "property", "static"], str]
+# ]
+MetaTagList = List[Dict[str, str]]
+MetaTagLanguageList = Dict[str, MetaTagList]
 
-def _get_meta_tags_from_context(context, path):
+
+def _get_meta_tags_from_context(
+    context: template.Context, path: str
+) -> Tuple[Optional[models.Model], MetaTagLanguageList]:
     flat_context = context.flatten()
     for obj in flat_context.values():
-        if hasattr(obj, "get_absolute_url") and obj.get_absolute_url() == path:
-            return obj, getattr(obj, "meta_tags", {})
+        if (
+            isinstance(obj, models.Model)
+            and hasattr(obj, "get_absolute_url")
+            and obj.get_absolute_url() == path
+        ):
+            return (obj, getattr(obj, "meta_tags", {}))
     return (None, {})
 
 
-def _get_meta_tags_for_path(path):
+def _get_meta_tags_for_path(path: str) -> MetaTagLanguageList:
     return getattr(SEOPath.objects.filter(path=path).first(), "meta_tags", {})
 
 
-def _override_tags(base_tags, overriding_tags):
+def _override_tags(base_tags: MetaTagList, overriding_tags: MetaTagList) -> MetaTagList:
     output = []
     for base_tag in base_tags:
         for overriding_tag in overriding_tags:
@@ -41,7 +57,9 @@ def _override_tags(base_tags, overriding_tags):
     return output
 
 
-def _collate_meta_tags(meta_tags, default_tags):
+def _collate_meta_tags(
+    meta_tags: MetaTagLanguageList, default_tags: MetaTagLanguageList
+) -> MetaTagLanguageList:
     collated_tags = default_tags
     for language, tags in meta_tags.items():
         # Simple case, if the language isn't in the tags, dump them all in.
@@ -54,11 +72,14 @@ def _collate_meta_tags(meta_tags, default_tags):
     return collated_tags
 
 
-def _get_meta_tags_for_language(meta_tags):
+def _get_meta_tags_for_language(meta_tags: MetaTagLanguageList) -> MetaTagList:
     if not settings.USE_I18N:
         return meta_tags.get("default", [])
 
     language = get_language()
+    if not language:
+        return meta_tags.get("default", [])
+
     if "_" in language:
         language_tag = language[:2]
         specific_language_meta_tags = meta_tags.get(language, [])
@@ -71,21 +92,23 @@ def _get_meta_tags_for_language(meta_tags):
     return _override_tags(meta_tags.get("default", []), all_language_meta_tags)
 
 
-def _get_image_dimensions(obj, field_file):
+def _get_image_dimensions(
+    obj: models.Model, field_file: ImageFieldFile
+) -> Tuple[str, str]:
     field = field_file.field
-    if field.width_field:
-        width = getattr(obj, field.width_field, field_file.width)
+    if field.width_field:  # type: ignore
+        width = getattr(obj, field.width_field, field_file.width)  # type: ignore
     else:
         width = field_file.width
 
-    if field.height_field:
-        height = getattr(obj, field.height_field, field_file.height)
+    if field.height_field:  # type: ignore
+        height = getattr(obj, field.height_field, field_file.height)  # type: ignore
     else:
         height = field_file.height
-    return (width, height)
+    return (str(width), str(height))
 
 
-def _get_absolute_file_url(request, path):
+def _get_absolute_file_url(request: HttpRequest, path: str) -> str:
     # Both Open Graph and Twitter Cards require absolute URLs.
     # Some static / media storages will give us absolute URLs.
     # However, the ones in Django, whitenoise, etc. just give relative URLs.
@@ -97,8 +120,10 @@ def _get_absolute_file_url(request, path):
     return urljoin(request.build_absolute_uri(), path)
 
 
-def _parse_meta_tags(tags, request, obj):
-    parsed_tags = []
+def _parse_meta_tags(
+    tags: MetaTagList, request: HttpRequest, obj: Optional[models.Model]
+) -> MetaTagList:
+    parsed_tags: MetaTagList = []
     for tag in tags:
         if "content" in tag:
             parsed_tags.append(tag)
@@ -134,7 +159,10 @@ def _parse_meta_tags(tags, request, obj):
     return parsed_tags
 
 
-def get_meta_tags(context, obj=None):
+# TODO: Python 3.8+, use `Literal["meta_tags"]`.
+def get_meta_tags(
+    context: template.Context, obj: Optional[models.Model] = None
+) -> Dict[str, MetaTagList]:
     """Fetch meta tags.
 
     1. If an object is passed, use it.
@@ -151,7 +179,7 @@ def get_meta_tags(context, obj=None):
     """
     try:
         if obj is not None:
-            found_tags = obj.meta_tags
+            found_tags = obj.meta_tags  # type: ignore
         else:
             request_path = context["request"].path
             obj, found_tags = _get_meta_tags_from_context(context, request_path)
@@ -162,8 +190,8 @@ def get_meta_tags(context, obj=None):
         model_tags = getattr(obj, "snakeoil_metadata", None) or {}
         collated_tags = _collate_meta_tags(model_tags, default_tags)
         collated_tags = _collate_meta_tags(found_tags, collated_tags)
-        collated_tags = _get_meta_tags_for_language(collated_tags)
-        meta_tags = _parse_meta_tags(collated_tags, request=context["request"], obj=obj)
+        language_tags = _get_meta_tags_for_language(collated_tags)
+        meta_tags = _parse_meta_tags(language_tags, request=context["request"], obj=obj)
         return {"meta_tags": meta_tags}
     except Exception:
         logger.exception("Failed fetching meta tags")

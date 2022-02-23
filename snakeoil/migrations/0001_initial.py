@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 from django.db import migrations, models
 
 try:
@@ -5,7 +7,7 @@ try:
 
     postgres_only = False
 except ImportError:
-    from django.contrib.postgres.fields import JSONField
+    from django.contrib.postgres.fields import JSONField  # type: ignore
 
     postgres_only = True
 
@@ -14,7 +16,7 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = []
+    dependencies: List[Tuple[str, str]] = []
 
     operations = [
         migrations.CreateModel(
