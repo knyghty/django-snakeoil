@@ -85,7 +85,9 @@ Setting metadata from object attributes
 ---------------------------------------
 
 You can also set metadata from object attributes with the ``attribute``
-key::
+key:
+
+.. code-block:: JSON
 
     {
         "default": [
@@ -104,7 +106,9 @@ Setting metadata dynamically
 Usually, your models will have some metadata stored as model fields or
 attributes, and it's a lot of effort to override this for every obejct.
 To set per-model metadata based on object attributes, you can define a
-property called ``snakeoil_metadata`` on your model::
+property called ``snakeoil_metadata`` on your model:
+
+.. code-block:: python
 
     from snakeoil.models import SEOModel
 
@@ -129,7 +133,7 @@ property called ``snakeoil_metadata`` on your model::
                 ]
             }
             if self.main_image:
-                metadata.append(
+                metadata["default"].append(
                     {"property": "og:image", "attribute": "main_image"}
                 )
             return metadata
@@ -150,7 +154,9 @@ Using static files
 
 You can also get files by their static path. However, this won't
 auatomatically add ``og:image:width`` and ``og:image:height`` properties,
-so these need to be added manually if needed::
+so these need to be added manually if needed:
+
+.. code-block:: JSON
 
     {
         "default": [

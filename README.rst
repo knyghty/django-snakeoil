@@ -47,7 +47,7 @@ object, you can use the model abstract base class:
                 ]
             }
             if self.main_image:
-                metadata.append(
+                metadata["default"].append(
                     {"property": "og:image", "attribute": "main_image"}
                 )
             return metadata
