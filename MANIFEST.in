@@ -1,5 +1,6 @@
 include LICENSE
 include README.rst
+include snakeoil/py.typed
 recursive-include docs *
 recursive-include snakeoil/jinja2 *
 recursive-include snakeoil/templates *
