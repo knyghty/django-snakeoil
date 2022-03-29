@@ -52,7 +52,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - run: sudo apt-get install libmemcached-dev
+      - run: sudo apt-get update && sudo apt-get install libmemcached-dev
       - uses: actions/checkout@v2
       - run: |
           python setup.py develop
@@ -117,7 +117,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - run: sudo apt-get install libmysqlclient-dev
+      - run: sudo apt-get update && sudo apt-get install libmysqlclient-dev
       - uses: actions/checkout@v2
       - run: |
           python setup.py develop
@@ -151,7 +151,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - run: sudo apt-get install libmariadbclient-dev
+      - run: sudo apt-get update && sudo apt-get install libmariadbclient-dev
       - uses: actions/checkout@v2
       - run: |
           python setup.py develop
