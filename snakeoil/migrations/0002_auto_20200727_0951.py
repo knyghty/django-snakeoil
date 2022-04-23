@@ -1,10 +1,4 @@
-from django.db import migrations
-
-try:
-    from django.db.models import JSONField
-
-except ImportError:
-    from django.contrib.postgres.fields import JSONField  # type: ignore
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -17,6 +11,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="seopath",
             name="meta_tags",
-            field=JSONField(blank=True, default=dict, verbose_name="meta tags"),
+            field=models.JSONField(blank=True, default=dict, verbose_name="meta tags"),
         ),
     ]

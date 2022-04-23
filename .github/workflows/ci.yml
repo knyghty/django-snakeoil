@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: ["2.2", "3.2", "4.0"]
+        django-version: ["3.2", "4.0"]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
         exclude:
           - python-version: 3.7
