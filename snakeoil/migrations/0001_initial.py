@@ -2,15 +2,6 @@ from typing import List, Tuple
 
 from django.db import migrations, models
 
-try:
-    from django.db.models import JSONField
-
-    postgres_only = False
-except ImportError:
-    from django.contrib.postgres.fields import JSONField  # type: ignore
-
-    postgres_only = True
-
 
 class Migration(migrations.Migration):
 
@@ -22,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="SEOPath",
             fields=[
-                ("meta_tags", JSONField(default=dict, verbose_name="meta tags")),
+                ("meta_tags", models.JSONField(default=dict, verbose_name="meta tags")),
                 (
                     "path",
                     models.CharField(
@@ -36,7 +27,6 @@ class Migration(migrations.Migration):
             options={
                 "verbose_name": "SEO path",
                 "verbose_name_plural": "SEO paths",
-                "required_db_vendor": "postgresql" if postgres_only else None,
             },
         ),
     ]

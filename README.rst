@@ -2,10 +2,8 @@
 django-snakeoil
 ===============
 
-django-snakeoil helps manage your ``<meta>`` tags.
-
-Works on all supported Django versions using PostgreSQl, or with any database
-on Django 3.1+.
+django-snakeoil helps manage your ``<meta>`` tags. It works on all supported
+Django versions and databases.
 
 It offers full internationalization support (tags for multiple languages),
 content set dynamically from object attributes, automatic Opengraph image
