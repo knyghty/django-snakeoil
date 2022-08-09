@@ -42,11 +42,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: ["3.2", "4.0"]
+        django-version: ["3.2", "4.0", "4.1"]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
         exclude:
           - python-version: 3.7
             django-version: 4.0
+          - python-version: 3.7
+            django-version: 4.1
     steps:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -65,11 +67,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: ["3.2", "4.0"]
+        django-version: ["3.2", "4.0", "4.1"]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
         exclude:
           - python-version: 3.7
             django-version: 4.0
+          - python-version: 3.7
+            django-version: 4.1
     services:
       postgres:
         image: postgres:12
@@ -99,11 +103,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: ["3.2", "4.0"]
+        django-version: ["3.2", "4.0", "4.1"]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
         exclude:
           - python-version: 3.7
             django-version: 4.0
+          - python-version: 3.7
+            django-version: 4.1
     services:
       mysql:
         image: mysql
@@ -133,11 +139,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: ["3.2", "4.0"]
+        django-version: ["3.2", "4.0", "4.1"]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
         exclude:
           - python-version: 3.7
             django-version: 4.0
+          - python-version: 3.7
+            django-version: 4.1
     services:
       mariadb:
         image: mariadb
