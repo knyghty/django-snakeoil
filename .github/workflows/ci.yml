@@ -159,7 +159,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - run: sudo apt-get update && sudo apt-get install libmariadbclient-dev
+      - run: sudo apt-get update && sudo apt-get install libmariadb-dev
       - uses: actions/checkout@v2
       - run: |
           python setup.py develop
