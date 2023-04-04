@@ -47,6 +47,8 @@ jobs:
         exclude:
           - python-version: 3.7
             django-version: 4.1
+          - python-version: 3.7
+            django-version: 4.2
     steps:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -70,6 +72,8 @@ jobs:
         exclude:
           - python-version: 3.7
             django-version: 4.1
+          - python-version: 3.7
+            django-version: 4.2
     services:
       postgres:
         image: postgres:12
@@ -104,6 +108,8 @@ jobs:
         exclude:
           - python-version: 3.7
             django-version: 4.1
+          - python-version: 3.7
+            django-version: 4.2
     services:
       mysql:
         image: mysql
@@ -138,6 +144,8 @@ jobs:
         exclude:
           - python-version: 3.7
             django-version: 4.1
+          - python-version: 3.7
+            django-version: 4.2
     services:
       mariadb:
         image: mariadb
