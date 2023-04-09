@@ -4,7 +4,6 @@ coverage
 django~=4.0
 django-stubs
 flake8
-isort
 pillow
 mypy
 pre-commit

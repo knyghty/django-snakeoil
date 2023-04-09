@@ -1,9 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from snakeoil.models import SEOPath
-
 from .models import Article
+from snakeoil.models import SEOPath
 
 User = get_user_model()
 

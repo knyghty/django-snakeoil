@@ -1,4 +1,5 @@
-from typing import Dict, Optional
+from typing import Dict
+from typing import Optional
 
 from django import template
 from django.db.models import Model
