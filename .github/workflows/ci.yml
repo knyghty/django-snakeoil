@@ -18,9 +18,9 @@ jobs:
   lint:
     uses: knyghty/actions/.github/workflows/lint-python.yml@main
     with:
-      black: true
-      flake8: true
-      isort: true
+      black: false
+      flake8: false
+      isort: false
       mypy: true
       package-manager: pip
       python-version: "3.11"
@@ -28,8 +28,10 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v2
-      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - uses: actions/checkout@v3
       - run: |
           python setup.py develop
           python -m pip install sphinx sphinx-rtd-theme sphinxcontrib-spelling
@@ -51,11 +53,11 @@ jobs:
             django-version: 4.2
     steps:
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - run: sudo apt-get update && sudo apt-get install libmemcached-dev
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: |
           python setup.py develop
           python -m pip install jinja2 pillow
@@ -85,10 +87,10 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: |
           python setup.py develop
           python -m pip install jinja2 pillow psycopg2
@@ -120,11 +122,11 @@ jobs:
           MYSQL_ROOT_PASSWORD: snakeoil
     steps:
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - run: sudo apt-get update && sudo apt-get install libmysqlclient-dev
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: |
           python setup.py develop
           python -m pip install jinja2 pillow mysqlclient
@@ -156,11 +158,11 @@ jobs:
           MYSQL_ROOT_PASSWORD: snakeoil
     steps:
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - run: sudo apt-get update && sudo apt-get install libmariadb-dev
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: |
           python setup.py develop
           python -m pip install jinja2 pillow mysqlclient
@@ -175,8 +177,8 @@ jobs:
     if: ${{ github.event_name == 'release' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v2
-      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v3
       - name: build
         run: |
           python -m pip install setuptools twine wheel

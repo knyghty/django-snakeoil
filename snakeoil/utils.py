@@ -1,5 +1,8 @@
 import logging
-from typing import Dict, List, Optional, Tuple
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
 from urllib.parse import urljoin
 
 from django import template
