@@ -84,7 +84,11 @@ jobs:
           POSTGRES_PASSWORD: snakeoil
         ports:
           - 5432/tcp
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
@@ -117,7 +121,11 @@ jobs:
         image: mysql
         ports:
           - 3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
         env:
           MYSQL_ROOT_PASSWORD: snakeoil
     steps:
@@ -153,7 +161,11 @@ jobs:
         image: mariadb
         ports:
           - 3306
-        options: --health-cmd="mariadb-admin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+        options: >-
+          --health-cmd="mariadb-admin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
         env:
           MYSQL_ROOT_PASSWORD: snakeoil
     steps:
