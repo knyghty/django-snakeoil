@@ -1,3 +1,5 @@
+import typing
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
@@ -22,15 +24,15 @@ class Article(SEOModel):
     secondary_image = models.ImageField(null=True, blank=True)
     content = models.TextField()
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("article_detail", args=[self.slug])
 
     @property
-    def author_name(self):
+    def author_name(self) -> str:
         return self.author.get_full_name()
 
     @property
-    def snakeoil_metadata(self):
+    def snakeoil_metadata(self) -> typing.Dict[str, typing.List[typing.Dict[str, str]]]:
         metadata = {
             "default": [
                 {"name": "author", "attribute": "author_name"},
