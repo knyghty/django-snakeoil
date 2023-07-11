@@ -1,6 +1,7 @@
 import logging
 from typing import Dict
 from typing import List
+from typing import Literal
 from typing import Optional
 from typing import Tuple
 from urllib.parse import urljoin
@@ -18,11 +19,9 @@ from .models import SEOPath
 logger = logging.getLogger(__name__)
 register = template.Library()
 
-# TODO: Python 3.8+, we can use `typing.Literal`:
-# MetaTagList = List[
-#    Dict[Literal["attribute", "content", "name", "property", "static"], str]
-# ]
-MetaTagList = List[Dict[str, str]]
+MetaTagKey = Literal["attribute", "content", "name", "property", "static"]
+MetaTag = Dict[MetaTagKey, str]
+MetaTagList = List[MetaTag]
 MetaTagLanguageList = Dict[str, MetaTagList]
 
 
@@ -162,10 +161,9 @@ def _parse_meta_tags(
     return parsed_tags
 
 
-# TODO: Python 3.8+, use `Literal["meta_tags"]`.
 def get_meta_tags(
     context: template.Context, obj: Optional[models.Model] = None
-) -> Dict[str, MetaTagList]:
+) -> Dict[Literal["meta_tags"], MetaTagList]:
     """Fetch meta tags.
 
     1. If an object is passed, use it.
