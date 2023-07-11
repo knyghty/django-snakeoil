@@ -1,7 +1,4 @@
 import logging
-from typing import Dict
-from typing import List
-from typing import Literal
 from typing import Optional
 from typing import Tuple
 from urllib.parse import urljoin
@@ -14,20 +11,16 @@ from django.http import HttpRequest
 from django.templatetags.static import static
 from django.utils.translation import get_language
 
+from . import types
 from .models import SEOPath
 
 logger = logging.getLogger(__name__)
 register = template.Library()
 
-MetaTagKey = Literal["attribute", "content", "name", "property", "static"]
-MetaTag = Dict[MetaTagKey, str]
-MetaTagList = List[MetaTag]
-MetaTagLanguageList = Dict[str, MetaTagList]
-
 
 def _get_meta_tags_from_context(
     context: template.Context, path: str
-) -> Tuple[Optional[models.Model], MetaTagLanguageList]:
+) -> Tuple[Optional[models.Model], types.MetaTagLanguageList]:
     flat_context = context.flatten()
     for obj in flat_context.values():
         if (
@@ -39,11 +32,13 @@ def _get_meta_tags_from_context(
     return (None, {})
 
 
-def _get_meta_tags_for_path(path: str) -> MetaTagLanguageList:
+def _get_meta_tags_for_path(path: str) -> types.MetaTagLanguageList:
     return getattr(SEOPath.objects.filter(path=path).first(), "meta_tags", {})
 
 
-def _override_tags(base_tags: MetaTagList, overriding_tags: MetaTagList) -> MetaTagList:
+def _override_tags(
+    base_tags: types.MetaTagList, overriding_tags: types.MetaTagList
+) -> types.MetaTagList:
     output = []
     for base_tag in base_tags:
         for overriding_tag in overriding_tags:
@@ -60,8 +55,8 @@ def _override_tags(base_tags: MetaTagList, overriding_tags: MetaTagList) -> Meta
 
 
 def _collate_meta_tags(
-    meta_tags: MetaTagLanguageList, default_tags: MetaTagLanguageList
-) -> MetaTagLanguageList:
+    meta_tags: types.MetaTagLanguageList, default_tags: types.MetaTagLanguageList
+) -> types.MetaTagLanguageList:
     collated_tags = default_tags
     for language, tags in meta_tags.items():
         # Simple case, if the language isn't in the tags, dump them all in.
@@ -74,7 +69,9 @@ def _collate_meta_tags(
     return collated_tags
 
 
-def _get_meta_tags_for_language(meta_tags: MetaTagLanguageList) -> MetaTagList:
+def _get_meta_tags_for_language(
+    meta_tags: types.MetaTagLanguageList,
+) -> types.MetaTagList:
     if not settings.USE_I18N:
         return meta_tags.get("default", [])
 
@@ -123,9 +120,9 @@ def _get_absolute_file_url(request: HttpRequest, path: str) -> str:
 
 
 def _parse_meta_tags(
-    tags: MetaTagList, request: HttpRequest, obj: Optional[models.Model]
-) -> MetaTagList:
-    parsed_tags: MetaTagList = []
+    tags: types.MetaTagList, request: HttpRequest, obj: Optional[models.Model]
+) -> types.MetaTagList:
+    parsed_tags: types.MetaTagList = []
     for tag in tags:
         if "content" in tag:
             parsed_tags.append(tag)
@@ -163,7 +160,7 @@ def _parse_meta_tags(
 
 def get_meta_tags(
     context: template.Context, obj: Optional[models.Model] = None
-) -> Dict[Literal["meta_tags"], MetaTagList]:
+) -> types.MetaTagContext:
     """Fetch meta tags.
 
     1. If an object is passed, use it.
