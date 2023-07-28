@@ -1,13 +1,13 @@
 # Development requirements.
 black
 coverage
-django~=4.0
+django~=4.2
 django-stubs
-flake8
 pillow
 mypy
 pre-commit
 rstcheck
+ruff
 sphinx
 sphinx-rtd-theme
 sphinxcontrib-spelling
