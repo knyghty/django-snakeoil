@@ -1,3 +1,15 @@
+[tool.coverage.run]
+branch = true
+source = ["snakeoil"]
+
+[tool.mypy]
+files = ["snakeoil"]
+plugins = ["mypy_django_plugin.main"]
+strict = true
+
+[tool.django-stubs]
+django_settings_module = "tests.settings"
+
 [tool.ruff]
 select = ["E", "F", "UP"]
 target-version = "py38"
