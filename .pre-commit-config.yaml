@@ -11,11 +11,6 @@ repos:
       - id: debug-statements
       - id: end-of-file-fixer
       - id: trailing-whitespace
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
-    hooks:
-      - id: pyupgrade
-        args: [--py38-plus]
   - repo: https://github.com/adamchainz/django-upgrade
     rev: "1.15.0"
     hooks:
