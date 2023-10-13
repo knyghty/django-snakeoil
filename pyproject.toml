@@ -1,0 +1,3 @@
+[tool.ruff]
+select = ["E", "F", "UP"]
+target-version = "py38"
