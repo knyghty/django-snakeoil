@@ -1,3 +1,36 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+authors = [{ "name" = "Tom Carrick", "email" = "tom@carrick.eu" }]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP :: Site Management",
+]
+dependencies = ["django"]
+description = "Simple SEO & meta tag management for Django"
+keywords = ["django", "seo", "meta"]
+license = { "file" = "LICENSE" }
+name = "django-snakeoil"
+readme = "README.rst"
+version = "1.1.2"
+
+[project.urls]
+Documentation = "https://django-snakeoil.readthedocs.io/en/latest/"
+Homepage = "https://github.com/knyghty/django-snakeoil"
+Repository = "https://github.com/knyghty/django-snakeoil"
+
 [tool.coverage.run]
 branch = true
 source = ["snakeoil"]
