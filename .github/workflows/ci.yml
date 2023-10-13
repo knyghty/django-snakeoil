@@ -23,14 +23,14 @@ jobs:
       isort: false
       mypy: true
       package-manager: pip
-      python-version: "3.11"
+      python-version: "3.12"
 
   docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - uses: actions/checkout@v3
       - run: |
           python setup.py develop
@@ -45,7 +45,7 @@ jobs:
     strategy:
       matrix:
         django-version: ["3.2", "4.1", "4.2"]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     steps:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
@@ -65,7 +65,7 @@ jobs:
     strategy:
       matrix:
         django-version: ["3.2", "4.1", "4.2"]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     services:
       postgres:
         image: postgres:12
@@ -100,7 +100,7 @@ jobs:
     strategy:
       matrix:
         django-version: ["3.2", "4.1", "4.2"]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     services:
       mysql:
         image: mysql
@@ -135,7 +135,7 @@ jobs:
     strategy:
       matrix:
         django-version: ["3.2", "4.1", "4.2"]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     services:
       mariadb:
         image: mariadb
