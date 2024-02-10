@@ -1,5 +1,4 @@
 # Development requirements.
-black
 coverage
 django~=5.0
 django-stubs

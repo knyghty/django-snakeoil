@@ -15,16 +15,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    uses: knyghty/actions/.github/workflows/lint-python.yml@main
-    with:
-      black: false
-      flake8: false
-      isort: false
-      mypy: true
-      package-manager: pip
-      python-version: "3.12"
-
   docs:
     runs-on: ubuntu-latest
     steps:
