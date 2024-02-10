@@ -31,7 +31,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.12"
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           python -m pip install -U pip wheel
           python -m pip install -e .
@@ -58,7 +58,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: sudo apt-get update && sudo apt-get install libmemcached-dev
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           python -m pip install -U pip wheel
           pip install -e .
@@ -96,7 +96,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           python -m pip install -U pip wheel
           python -m pip install -e .
@@ -137,7 +137,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: sudo apt-get update && sudo apt-get install libmysqlclient-dev
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           python -m pip install -U pip wheel
           python -m pip install -e .
@@ -178,7 +178,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: sudo apt-get update && sudo apt-get install libmariadb-dev
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           python -m pip install -U pip wheel
           pip install -e .
