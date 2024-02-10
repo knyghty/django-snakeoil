@@ -44,5 +44,10 @@ strict = true
 django_settings_module = "tests.settings"
 
 [tool.ruff]
-select = ["E", "F", "UP"]
 target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.ruff.lint.isort]
+force-single-line = true

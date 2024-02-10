@@ -1,5 +1,4 @@
 # Development requirements.
-black
 coverage
 django~=5.0
 django-stubs
@@ -7,7 +6,6 @@ pillow
 mypy
 pre-commit
 rstcheck
-ruff
 sphinx
 sphinx-rtd-theme
 sphinxcontrib-spelling

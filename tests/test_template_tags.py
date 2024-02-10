@@ -3,11 +3,12 @@ import logging
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import override_settings
 from django.test import TestCase
+from django.test import override_settings
+
+from snakeoil.models import SEOPath
 
 from .models import Article
-from snakeoil.models import SEOPath
 
 User = get_user_model()
 
