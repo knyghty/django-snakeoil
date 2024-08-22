@@ -45,12 +45,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: ["3.2", "4.2", "5.0"]
+        django-version: ["4.2", "5.0", "5.1"]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         exclude:
           - django-version: "5.0"
             python-version: "3.8"
           - django-version: "5.0"
+            python-version: "3.9"
+          - django-version: "5.1"
+            python-version: "3.8"
+          - django-version: "5.1"
             python-version: "3.9"
     steps:
       - name: Set up Python ${{ matrix.python-version }}
@@ -71,16 +75,20 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: ["3.2", "4.2", "5.0"]
+        django-version: ["4.2", "5.0", "5.1"]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         exclude:
           - django-version: "5.0"
             python-version: "3.8"
           - django-version: "5.0"
             python-version: "3.9"
+          - django-version: "5.1"
+            python-version: "3.8"
+          - django-version: "5.1"
+            python-version: "3.9"
     services:
       postgres:
-        image: postgres:12
+        image: postgres
         env:
           POSTGRES_USER: snakeoil
           POSTGRES_PASSWORD: snakeoil
@@ -112,12 +120,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: ["3.2", "4.2", "5.0"]
+        django-version: ["4.2", "5.0", "5.1"]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         exclude:
           - django-version: "5.0"
             python-version: "3.8"
           - django-version: "5.0"
+            python-version: "3.9"
+          - django-version: "5.1"
+            python-version: "3.8"
+          - django-version: "5.1"
             python-version: "3.9"
     services:
       mysql:
@@ -153,12 +165,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        django-version: ["3.2", "4.2", "5.0"]
+        django-version: ["4.2", "5.0", "5.1"]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         exclude:
           - django-version: "5.0"
             python-version: "3.8"
           - django-version: "5.0"
+            python-version: "3.9"
+          - django-version: "5.1"
+            python-version: "3.8"
+          - django-version: "5.1"
             python-version: "3.9"
     services:
       mariadb:
