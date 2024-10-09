@@ -1,6 +1,6 @@
 # Development requirements.
 coverage
-django~=5.0
+django
 django-stubs
 pillow
 mypy
