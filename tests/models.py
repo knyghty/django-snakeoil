@@ -1,5 +1,3 @@
-import typing
-
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
@@ -32,7 +30,7 @@ class Article(SEOModel):
         return self.author.get_full_name()
 
     @property
-    def snakeoil_metadata(self) -> typing.Dict[str, typing.List[typing.Dict[str, str]]]:
+    def snakeoil_metadata(self) -> dict[str, list[dict[str, str]]]:
         metadata = {
             "default": [
                 {"name": "author", "attribute": "author_name"},

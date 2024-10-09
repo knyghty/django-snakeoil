@@ -1,6 +1,5 @@
 import logging
 from typing import Optional
-from typing import Tuple
 from urllib.parse import urljoin
 
 from django import template
@@ -20,7 +19,7 @@ register = template.Library()
 
 def _get_meta_tags_from_context(
     context: template.Context, path: str
-) -> Tuple[Optional[models.Model], types.MetaTagLanguageList]:
+) -> tuple[Optional[models.Model], types.MetaTagLanguageList]:
     flat_context = context.flatten()
     for obj in flat_context.values():
         if (
@@ -93,7 +92,7 @@ def _get_meta_tags_for_language(
 
 def _get_image_dimensions(
     obj: models.Model, field_file: ImageFieldFile
-) -> Tuple[str, str]:
+) -> tuple[str, str]:
     field = field_file.field
     if field.width_field:  # type: ignore
         width = getattr(obj, field.width_field, field_file.width)  # type: ignore
