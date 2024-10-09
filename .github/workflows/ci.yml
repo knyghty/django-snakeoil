@@ -185,7 +185,7 @@ jobs:
     needs: [docs, SQLite, PostgreSQL, MySQL, MariaDB]
     environment:
       name: pypi
-      url: https://pypi.org/p/django-rq-email-backend
+      url: https://pypi.org/p/django-snakeoil
     permissions:
       id-token: write
     steps:
