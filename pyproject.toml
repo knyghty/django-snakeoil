@@ -10,15 +10,16 @@ classifiers = [
     "Framework :: Django",
     "Framework :: Django :: 4.2",
     "Framework :: Django :: 5.1",
+    "Framework :: Django :: 5.2",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Internet :: WWW/HTTP :: Site Management",
 ]
 dependencies = ["django"]
@@ -26,7 +27,7 @@ description = "Simple SEO & meta tag management for Django"
 keywords = ["django", "seo", "meta"]
 license = { "file" = "LICENSE" }
 name = "django-snakeoil"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 readme = "README.rst"
 version = "2.0"
 
@@ -46,9 +47,6 @@ strict = true
 
 [tool.django-stubs]
 django_settings_module = "tests.settings"
-
-[tool.ruff]
-target-version = "py39"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]

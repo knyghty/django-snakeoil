@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 from urllib.parse import urljoin
 
 from django import template
@@ -19,7 +18,7 @@ register = template.Library()
 
 def _get_meta_tags_from_context(
     context: template.Context, path: str
-) -> tuple[Optional[models.Model], types.MetaTagLanguageList]:
+) -> tuple[models.Model | None, types.MetaTagLanguageList]:
     flat_context = context.flatten()
     for obj in flat_context.values():
         if (
@@ -119,7 +118,7 @@ def _get_absolute_file_url(request: HttpRequest, path: str) -> str:
 
 
 def _parse_meta_tags(
-    tags: types.MetaTagList, request: HttpRequest, obj: Optional[models.Model]
+    tags: types.MetaTagList, request: HttpRequest, obj: models.Model | None
 ) -> types.MetaTagList:
     parsed_tags: types.MetaTagList = []
     for tag in tags:
@@ -158,7 +157,7 @@ def _parse_meta_tags(
 
 
 def get_meta_tags(
-    context: template.Context, obj: Optional[models.Model] = None
+    context: template.Context, obj: models.Model | None = None
 ) -> types.MetaTagContext:
     """Fetch meta tags.
 
