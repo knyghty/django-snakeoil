@@ -37,6 +37,13 @@ jobs:
       matrix:
         django-version: ["4.2", "5.1", "5.2"]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        exclude:
+          - django-version: "4.2"
+            python-version: "3.13"
+          - django-version: "4.2"
+            python-version: "3.14"
+          - django-version: "5.1"
+            python-version: "3.14"
     steps:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v6
@@ -58,6 +65,13 @@ jobs:
       matrix:
         django-version: ["4.2", "5.1", "5.2"]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        exclude:
+          - django-version: "4.2"
+            python-version: "3.13"
+          - django-version: "4.2"
+            python-version: "3.14"
+          - django-version: "5.1"
+            python-version: "3.14"
     services:
       postgres:
         image: postgres
@@ -94,6 +108,13 @@ jobs:
       matrix:
         django-version: ["4.2", "5.1", "5.2"]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        exclude:
+          - django-version: "4.2"
+            python-version: "3.13"
+          - django-version: "4.2"
+            python-version: "3.14"
+          - django-version: "5.1"
+            python-version: "3.14"
     services:
       mysql:
         image: mysql
@@ -130,6 +151,13 @@ jobs:
       matrix:
         django-version: ["4.2", "5.1", "5.2"]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        exclude:
+          - django-version: "4.2"
+            python-version: "3.13"
+          - django-version: "4.2"
+            python-version: "3.14"
+          - django-version: "5.1"
+            python-version: "3.14"
     services:
       mariadb:
         image: mariadb
