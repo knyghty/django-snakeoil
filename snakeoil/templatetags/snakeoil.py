@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django import template
 from django.db.models import Model
 
@@ -10,7 +8,5 @@ register = template.Library()
 
 
 @register.inclusion_tag("snakeoil/seo.html", takes_context=True)
-def meta(
-    context: template.Context, obj: Optional[Model] = None
-) -> types.MetaTagContext:
+def meta(context: template.Context, obj: Model | None = None) -> types.MetaTagContext:
     return utils.get_meta_tags(context, obj)
