@@ -42,12 +42,26 @@ jobs:
           body: Automated hook update from the `update-hooks` workflow, using `prek update`.
           branch: update-pre-commit-hooks
           delete-branch: true
-      # PRs created with the workflow token don't trigger CI, so dispatch it.
-      - name: Trigger CI
+      # GitHub holds CI runs from bot-authored PRs for manual approval;
+      # approve so the required checks can report.
+      - name: Approve CI run
         if: steps.pr.outputs.pull-request-operation == 'created' || steps.pr.outputs.pull-request-operation == 'updated'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run ci.yml --ref update-pre-commit-hooks --repo "$GITHUB_REPOSITORY"
+          PAT: ${{ secrets.AUTOMATION_TOKEN }}
+        run: |
+          for i in $(seq 1 24); do
+            run_id=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?branch=update-pre-commit-hooks&event=pull_request" \
+              --jq '[.workflow_runs[] | select(.conclusion == "action_required")][0].id // empty')
+            [ -n "$run_id" ] && break
+            sleep 5
+          done
+          if [ -z "$run_id" ]; then
+            echo "No CI run waiting for approval"
+            exit 0
+          fi
+          gh api -X POST "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/approve" ||
+            GH_TOKEN="$PAT" gh api -X POST "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/approve"
       - name: Enable auto-merge
         if: steps.pr.outputs.pull-request-operation == 'created' || steps.pr.outputs.pull-request-operation == 'updated'
         env:
