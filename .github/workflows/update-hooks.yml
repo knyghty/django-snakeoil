@@ -11,13 +11,12 @@ jobs:
   update:
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       contents: write
       pull-requests: write
     steps:
       - name: Check out code
         uses: actions/checkout@v7
-        with:
-          token: ${{ secrets.AUTOMATION_TOKEN }}
       - name: Install prek
         uses: j178/prek-action@v2
         with:
@@ -38,12 +37,17 @@ jobs:
         id: pr
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.AUTOMATION_TOKEN }}
           commit-message: Update pre-commit hooks
           title: Update pre-commit hooks
           body: Automated hook update from the `update-hooks` workflow, using `prek update`.
           branch: update-pre-commit-hooks
           delete-branch: true
+      # PRs created with the workflow token don't trigger CI, so dispatch it.
+      - name: Trigger CI
+        if: steps.pr.outputs.pull-request-operation == 'created' || steps.pr.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run ci.yml --ref update-pre-commit-hooks --repo "$GITHUB_REPOSITORY"
       - name: Enable auto-merge
         if: steps.pr.outputs.pull-request-operation == 'created' || steps.pr.outputs.pull-request-operation == 'updated'
         env:
@@ -52,9 +56,10 @@ jobs:
         run: |
           gh pr merge --squash --auto "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" ||
             echo "::warning::Could not enable auto-merge"
+      # The bot authors the PR, so this approval comes from the token owner.
       - name: Approve if only the hook config changed
         if: steps.changes.outputs.config-only == 'true' && (steps.pr.outputs.pull-request-operation == 'created' || steps.pr.outputs.pull-request-operation == 'updated')
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.AUTOMATION_TOKEN }}
           PR_NUMBER: ${{ steps.pr.outputs.pull-request-number }}
         run: gh pr review --approve "$PR_NUMBER" --repo "$GITHUB_REPOSITORY"
