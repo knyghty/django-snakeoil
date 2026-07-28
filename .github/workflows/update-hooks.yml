@@ -1,0 +1,60 @@
+name: Update hooks
+
+on:
+  schedule:
+    - cron: "47 5 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.AUTOMATION_TOKEN }}
+      - name: Install prek
+        uses: j178/prek-action@v2
+        with:
+          install-only: true
+      - name: Update hook versions
+        run: prek update
+      - name: Run hooks
+        run: prek run --all-files || prek run --all-files || true
+      - name: Check which files changed
+        id: changes
+        run: |
+          if [ -n "$(git status --porcelain)" ] && [ "$(git diff --name-only)" = ".pre-commit-config.yaml" ]; then
+            echo "config-only=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "config-only=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create pull request
+        id: pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.AUTOMATION_TOKEN }}
+          commit-message: Update pre-commit hooks
+          title: Update pre-commit hooks
+          body: Automated hook update from the `update-hooks` workflow, using `prek update`.
+          branch: update-pre-commit-hooks
+          delete-branch: true
+      - name: Enable auto-merge
+        if: steps.pr.outputs.pull-request-operation == 'created' || steps.pr.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.pr.outputs.pull-request-number }}
+        run: |
+          gh pr merge --squash --auto "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" ||
+            echo "::warning::Could not enable auto-merge"
+      - name: Approve if only the hook config changed
+        if: steps.changes.outputs.config-only == 'true' && (steps.pr.outputs.pull-request-operation == 'created' || steps.pr.outputs.pull-request-operation == 'updated')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.pr.outputs.pull-request-number }}
+        run: gh pr review --approve "$PR_NUMBER" --repo "$GITHUB_REPOSITORY"
