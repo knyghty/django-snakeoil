@@ -4,7 +4,7 @@ django
 django-stubs
 pillow
 mypy
-pre-commit
+prek
 rstcheck
 sphinx
 sphinx-rtd-theme
