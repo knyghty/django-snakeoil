@@ -17,7 +17,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v7
         with:
-          token: ${{ secrets.PREK_UPDATE_TOKEN }}
+          token: ${{ secrets.AUTOMATION_TOKEN }}
       - name: Install prek
         uses: j178/prek-action@v2
         with:
@@ -38,7 +38,7 @@ jobs:
         id: pr
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.PREK_UPDATE_TOKEN }}
+          token: ${{ secrets.AUTOMATION_TOKEN }}
           commit-message: Update pre-commit hooks
           title: Update pre-commit hooks
           body: Automated hook update from the `update-hooks` workflow, using `prek update`.
