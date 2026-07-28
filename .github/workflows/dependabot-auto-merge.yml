@@ -21,7 +21,8 @@ jobs:
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: |
           gh pr merge --squash --auto "$PR_URL" ||
-            echo "::warning::Could not enable auto-merge"
+            gh pr merge --squash "$PR_URL" ||
+            echo "::warning::Could not enable auto-merge or merge directly"
       # Action bumps are usually majors and CI exercises them directly, so
       # approve every update type there; elsewhere majors wait for review.
       - name: Approve
