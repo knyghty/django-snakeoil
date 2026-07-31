@@ -25,7 +25,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v7
       - name: Run prek
-        uses: j178/prek-action@v2
+        uses: j178/prek-action@v2.0.6
 
   docs:
     runs-on: ubuntu-latest
